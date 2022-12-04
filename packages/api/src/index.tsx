@@ -1,15 +1,19 @@
 import { initTRPC } from "@trpc/server";
+import { Context } from "./context";
 
-const t = initTRPC.create();
+export * from "./context";
+
+const t = initTRPC.context<Context>().create();
 
 export const appRouter = t.router({
-  all: t.procedure.query(() => ["1", "2", "3", "4"]),
-  byId: t.procedure
-    .input((val) => {
-      if (typeof val === "string") return val;
-      throw new Error(`Invalid input: ${typeof val}`);
-    })
-    .query(() => ["1"]),
+  all: t.procedure.query(({ ctx }) => {
+    return ctx.prisma.user.findMany();
+  }),
+  create: t.procedure.mutation(async ({ ctx }) => {
+    return ctx.prisma.user.create({
+      data: { email: `${Date.now()}`, name: `John Doe` },
+    });
+  }),
 });
 
 export type AppRouter = typeof appRouter;
