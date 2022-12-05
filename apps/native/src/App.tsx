@@ -1,16 +1,10 @@
-import { StyleSheet, Text, View } from "react-native";
-import { StatusBar } from "expo-status-bar";
-import { Button } from "ui";
-import { trpc } from "./utils/trpc";
+import { StyleSheet, View } from "react-native";
+import HomeScreen from "@app/screens/HomeScreen";
 
 function App() {
-  const { status, refetch } = trpc.all.useQuery();
-
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Native</Text>
-      <Button onClick={() => refetch()} text={status} />
-      <StatusBar style="auto" />
+      <HomeScreen />
     </View>
   );
 }

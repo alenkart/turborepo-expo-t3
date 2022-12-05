@@ -14,6 +14,9 @@ export const appRouter = t.router({
       data: { email: `${Date.now()}`, name: `John Doe` },
     });
   }),
+  delete: t.procedure.mutation(async ({ ctx }) => {
+    return ctx.prisma.user.delete({ where: { id: 1 } });
+  }),
 });
 
 export type AppRouter = typeof appRouter;
